@@ -11,61 +11,61 @@ import (
 // error report has the correct values.
 
 func TestNegroniRequestPanic(t *testing.T) {
+	defer pkill("negroni")
 	startTestServer()
 	body := startPanickingApp(t,
 		"./fixtures/negroni.go", "http://localhost:9078", "default")
 	assertSeverityReasonEqual(t, body, "error", "unhandledErrorMiddleware", true)
-	pkill("negroni")
 }
 
 func TestNegroniRequestPanicCallbackAltered(t *testing.T) {
+	defer pkill("negroni")
 	startTestServer()
 	body := startPanickingApp(t,
 		"./fixtures/negroni.go", "http://localhost:9078", "beforenotify")
 	assertSeverityReasonEqual(t, body, "info", "userCallbackSetSeverity", true)
-	pkill("negroni")
 }
 
 func TestGinRequestPanic(t *testing.T) {
+	defer pkill("gin")
 	startTestServer()
 	body := startPanickingApp(t, "./fixtures/gin.go", "http://localhost:9079", "default")
 	assertSeverityReasonEqual(t, body, "error", "unhandledErrorMiddleware", true)
-	pkill("gin")
 }
 
 func TestGinRequestPanicCallbackAltered(t *testing.T) {
+	defer pkill("gin")
 	startTestServer()
 	body := startPanickingApp(t, "./fixtures/gin.go", "http://localhost:9079", "beforenotify")
 	assertSeverityReasonEqual(t, body, "info", "userCallbackSetSeverity", true)
-	pkill("gin")
 }
 
 func TestMartiniRequestPanic(t *testing.T) {
+	defer pkill("martini")
 	startTestServer()
 	body := startPanickingApp(t, "./fixtures/martini.go", "http://localhost:3000", "default")
 	assertSeverityReasonEqual(t, body, "error", "unhandledErrorMiddleware", true)
-	pkill("martini")
 }
 
 func TestMartiniRequestPanicCallbackAltered(t *testing.T) {
+	defer pkill("martini")
 	startTestServer()
 	body := startPanickingApp(t, "./fixtures/martini.go", "http://localhost:3000", "beforenotify")
 	assertSeverityReasonEqual(t, body, "info", "userCallbackSetSeverity", true)
-	pkill("martini")
 }
 
 func TestRevelRequestPanic(t *testing.T) {
+	defer pkill("revel")
 	startTestServer()
 	body := startRevelApp(t, "default")
 	assertSeverityReasonEqual(t, body, "error", "unhandledErrorMiddleware", true)
-	pkill("revel")
 }
 
 func TestRevelRequestPanicCallbackAltered(t *testing.T) {
+	defer pkill("revel")
 	startTestServer()
 	body := startRevelApp(t, "beforenotify")
 	assertSeverityReasonEqual(t, body, "info", "userCallbackSetSeverity", true)
-	pkill("revel")
 }
 
 func pkill(process string) {
